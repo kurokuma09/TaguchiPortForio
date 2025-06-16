@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>雪玉と不思議な時計</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #e0f7fa;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: #37474f;
+        }
+
+        header {
+            background-color: #0288d1;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: #0288d1;
+            font-size: 22px;
+            border-left: 6px solid #4dd0e1;
+            padding-left: 10px;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        iframe {
+            width: 100%;
+            height: 315px;
+            border: none;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .media-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .media-grid {
+                grid-template-columns: 1fr;
+            }
+
+            iframe {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>雪玉と不思議な時計</h1>
+        <p>自分が消えないように雪道をわたりながらゴールを目指そう</p>
+    </header>
+
+    <div class="container">
+        <section>
+            <h2>ゲームの概要</h2>
+            <p>
+                2D横スクロールアクションゲームで、ステージギミックをクリアしながらゴールに向かうゲームです。<br />
+                雪道を転がると主人公（雪玉）が大きくなり、それ以外の場所を通ると小さくなるので、完全に消えないようにルートを工夫する必要があります。
+            </p>
+        </section>
+
+        <section>
+            <h2>特徴</h2>
+            <ul>
+                <li>移動でサイズが変化し、先を読むプレイングが重要</li>
+                <li>時間ギミックやスイッチで変化する地形</li>
+                <li>幻想的な音楽とビジュアルで没入感のある世界観</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>スクリーンショットや動画</h2>
+            <div class="media-grid">
+                <img src="screenshot1.jpg" alt="スクリーンショット1" />
+                <img src="screenshot2.jpg" alt="スクリーンショット2" />
+            </div>
+            <!-- 動画埋め込み -->
+            <iframe src="https://www.youtube.com/embed/your-video-id" allowfullscreen></iframe>
+        </section>
+
+        <section>
+            <h2>スクリプト</h2>
+            <div class="media-grid">
+                <img src="script1.jpg" alt="プレイヤースクリプト" />
+                <img src="script2.jpg" alt="雪玉サイズ管理スクリプト" />
+            </div>
+        </section>
+    </div>
+
+</body>
+
+</html>

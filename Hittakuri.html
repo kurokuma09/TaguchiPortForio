@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ひったくりチェイス｜ゲーム紹介</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 30px 10px;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        section {
+            background-color: white;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+
+        iframe {
+            width: 100%;
+            height: 315px;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #1a242f;
+        }
+
+        pre {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: Consolas, monospace;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>ひったくりチェイス</h1>
+        <p>街中で鞄を取られた！障害物をよけてひったくり犯を追いかけろ！</p>
+    </header>
+
+    <section>
+        <h2>ゲーム概要</h2>
+        <p>
+            本作は2D横スクロールのアクションゲームです。<br>
+            プレイヤーは街中を走り抜けながら障害物を避け、ひったくり犯を追いかけます。<br>
+            追いついたあとは、ノーツ入力形式のミニゲームで鞄を取り返すシーンに切り替わり、アクション＋リズム要素が楽しめます。
+        </p>
+    </section>
+
+    <section>
+        <h2>特徴・工夫点</h2>
+        <ul>
+            <li>アクションとミニリズムゲームの2段構成でメリハリを演出</li>
+            <li>障害物の密度がやや高めで、短時間でも遊びごたえのあるバランス</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>制作情報</h2>
+        <ul>
+            <li><strong>制作期間：</strong>4週間</li>
+            <li><strong>使用エンジン：</strong>Unity (C#)</li>
+            <li><strong>制作形式：</strong>企画をお借りしての個人制作</li>
+            <li><strong>担当箇所：</strong>全体プログラム（アクション・ノーツミニゲーム含む）</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>スクリーンショット・プレイ動画</h2>
+        <img src="Hitta1.png" alt="チェイスゲーム画面">
+        <img src="Hitta2.png" alt="ノーツミニゲーム画面">
+        <video controls width="100%" poster="Hitta1.png">
+            <source src="画面録画 2025-05-28 061240.mp4" type="video/mp4">
+            お使いのブラウザは video タグをサポートしていません。
+        </video>
+    </section>
+
+    <section>
+        <h2>コード一部紹介</h2>
+
+        <button onclick="toggleCode()">スクリプトを見る／隠す</button>
+        <pre id="codeBlock" style="display: none;">
+<code>// プレイヤーのスクリプト
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.Tilemaps;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using static UnityEditor.Experimental.GraphView.GraphView;
+using static UnityEngine.Rendering.DebugUI;
+
+public class Player : MonoBehaviour
+{
+    public Text scoreText;     // 画面に表示するText
+
+    [SerializeField] GameObject NoteGame;//ノーツゲーム
+    [SerializeField] GameObject Hittakuri;
+
+    [SerializeField] private string layerA = "Player";
+    [SerializeField] private string layerB = "TurnPlayer";
+
+    public Transform target;           // 距離を測る相手
+    public float triggerDistance = 10f; // この距離より離れたらシーン遷移
+    public string nextSceneName = "NextScene"; // 遷移先シーンの名前
+
+    private bool sceneChanged = false;
+
+    //プレイヤーの画像変え用
+    SpriteRenderer MainSpriteRenderer;
+    // publicで宣言し、inspectorで設定可能にする
+    public Sprite NormalSprite;//通常の画像
+    public Sprite SripSprite;//転んだ画像
+    public Sprite JumpSprite;//ジャンプの画像
+    public Sprite StunSprite;//ふらついている画像
+    public Sprite PullBugSprite;//鞄を引っ張りあう画像
+
+    public float BaseSpeed = 1.0f;//元の移動速度
+    public float MoveSpeed = 1.0f;//プレイヤーの移動速度
+    public float StunTime = 3.0f;//木材を運んでいる人にぶつかったときのスタン時間
+
+    public bool Toriai = false;//取り合いの時はほかの邪魔とぶつからないようにする
+
+    private bool ZPosChange = false;
+
+    [Header("ジャンプ設定")]
+    public float jumpForce = 5f;
+
+    [Header("接地判定")]
+   // public Transform groundCheck;         // 足元の位置
+    public float groundCheckRadius = 0.2f;
+    //public LayerMask groundLayer;         // 地面のレイヤー
+
+    private Rigidbody2D rb;
+    private bool isGrounded;
+    Rigidbody2D rbody2D;             // Rigidbody2Dを定義
+
+    private float EnemyDistance = 0.0f;//ひったくり犯との距離を保存 
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        MainSpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+
+        rb = GetComponent<Rigidbody2D>();
+
+        UpdateScoreText();     // 初期表示
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        UpdateScoreText();
+
+        if (Input.GetKey(KeyCode.C))
+        {          
+                SetLayerRecursively(gameObject, LayerMask.NameToLayer(layerB));  
+        }
+        else
+        {
+            SetLayerRecursively(gameObject, LayerMask.NameToLayer(layerA));
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        }
+
+        if (target == null || sceneChanged) return;
+
+        float distance = Vector2.Distance(transform.position, target.position); //対象との距離を測り保存
+        EnemyDistance = distance;
+
+        if (distance > triggerDistance)
+        {
+            sceneChanged = true; // 遷移の多重呼び出し防止
+            SceneManager.LoadScene(nextSceneName);
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (Toriai == false)
+        {
+            if (other.gameObject.CompareTag("Jama1"))//木材を運んでいる人にぶつかったときの判定
+            {
+                //接触したら移動速度を0にする+数秒間移動無効
+                MoveStop();
+                Invoke("RestartMove", StunTime);
+            }
+            else if (other.gameObject.CompareTag("Jama2"))//コーンにぶつかったときの判定
+            {
+                Destroy(other.gameObject);
+                Invoke("MoveStopCorn", 0.05f);
+                Invoke("RestartMoveCorn", (StunTime - 0.3f));
+            }
+            else if (other.gameObject.CompareTag("Hittakuri"))//ひったくり犯にぶつかったときの判定
+            {
+                other.gameObject.SetActive(false);
+                MoveStop();
+                PullBugChange();
+                Instantiate(NoteGame, new Vector3(4, -1, 0), Quaternion.identity);
+                Invoke("RestartHittakuri",14f);
+                
+            }
+            else
+            { }
+        }
+        /*if (other.gameObject.CompareTag("Hittakuri"))//コーンにぶつかったときの判定
+        {
+            other.gameObject.SetActive(false);
+            MoveStop();
+            PullBugChange();
+        }*/
+    }
+    // 接地判定（タグを使って判断）
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false;
+        }
+    }
+    void RestartHittakuri()
+    {
+        NormalSpriteChange();
+        Invoke("RestartMove", 2f);
+       
+        Hittakuri.gameObject.SetActive(true);
+        Invoke("RestartHittakuria",2f);
+    }
+    void RestartHittakuria()
+    {
+
+        Toriai = false;
+    }
+
+    private void MoveStop()
+    {
+        MoveSpeed = 0.0f;
+        Debug.Log("停止");
+    }
+    private void RestartMove()
+    {
+        MoveSpeed = BaseSpeed;
+        Debug.Log("移動速度が元に戻った");
+    }
+
+    //三角コーンにぶつかったとき用の専用部分
+    private void MoveStopCorn()
+    {
+        SripSpriteChange();
+        MoveSpeed = 0.0f;
+        Debug.Log("停止");
+    }
+    private void RestartMoveCorn()
+    {
+        NormalSpriteChange();
+        MoveSpeed = BaseSpeed;
+        Debug.Log("移動速度が元に戻った");
+    }
+
+    //画像入れ替え
+    //転んでいる
+    private void SripSpriteChange()
+    {
+        MainSpriteRenderer.sprite = SripSprite;
+    }
+    //走っている
+    private void NormalSpriteChange()
+    {
+        MainSpriteRenderer.sprite = NormalSprite;
+    }
+    //鞄を引っ張っている
+    private void PullBugChange()
+    {
+        MainSpriteRenderer.sprite = PullBugSprite;
+        Toriai = true;
+    }
+
+    void SetLayerRecursively(GameObject obj, int newLayer)
+    {
+        if (obj == null) return;
+
+        obj.layer = newLayer;
+
+        foreach (Transform child in obj.transform)
+        {
+            if (child != null)
+            {
+                SetLayerRecursively(child.gameObject, newLayer);
+            }
+        }
+    }
+
+    void UpdateScoreText()
+    {
+        // オブジェクトからTextコンポーネントを取得
+        Text score_text = scoreText.GetComponent<Text>();
+        // 小数点以下1桁にフォーマットして表示
+        score_text.text = "犯人との距離:" + EnemyDistance.ToString("F1");
+        
+    }
+}
+// Debug.Log("");
+}</code>
+    </pre>
+    </section>
+
+    <script>
+        function toggleCode() {
+            const codeBlock = document.getElementById("codeBlock");
+            codeBlock.style.display = (codeBlock.style.display === "none") ? "block" : "none";
+        }
+    </script>
+
+</body>
+
+</html>
