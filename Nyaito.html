@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ガンバラニャイト</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #fff8e1;
+            color: #4e342e;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #3f51b5;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: #3f51b5;
+            font-size: 22px;
+            border-left: 6px solid #fdd835;
+            padding-left: 10px;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        iframe {
+            width: 100%;
+            height: 315px;
+            border: none;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .media-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .media-grid {
+                grid-template-columns: 1fr;
+            }
+
+            iframe {
+                height: 200px;
+            }
+        }
+
+        pre {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        /*下の元のページに戻るための”こちら”という文字を白にして、マウスを重ねると黄色にする*/
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #1e3a5f;
+            color: white;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: white;
+        }
+
+        footer a:hover {
+            color: #ffcc00;
+            /* 例：薄い黄色など */
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>ガンバラニャイト</h1>
+        <p>ニャイトを操作してチーズをネズミたちから取り返すゲーム</p>
+    </header>
+
+    <div class="container">
+        <section>
+            <h2>ゲームの概要</h2>
+            <p>
+                4つのユニークなスキルを使い分け、ネズミたちに奪われたチーズを取り返す2Dアクションゲームです。
+                ステージごとに異なるギミックや仕掛けがあり、スキルの組み合わせによる多彩な攻略方法が楽しめます。
+                特にボス戦では、スキルのタイミングと戦略が勝利の鍵となります。
+            </p>
+        </section>
+
+        <section>
+            <h2>特徴・魅力</h2>
+            <ul>
+                <li>ユニークな4つのスキルを使った多彩なアクション</li>
+                <li>キャラクターはすべてLive2Dでアニメーション</li>
+                <li>かわいい世界観と戦略性のあるボスバトル</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>自分の担当箇所</h2>
+            <ul>
+                <li>ボス戦の発電ギミック設計・実装</li>
+                <li>ボス戦で使用されるスキル演出・エフェクト</li>
+                <li>攻撃のタイミングやパターンの制御</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>スクリーンショット</h2>
+            <div class="media-grid">
+                <img src="NyaiShot.png" alt="ゲームプレイ画面1" />
+                <img src="NyaitoShot.png" alt="ゲームプレイ画面2" />
+            </div>
+            <!-- YouTubeなどの動画をここに埋め込めます -->
+        </section>
+
+        <section>
+            <h2>プレイ方法・対応環境</h2>
+            <p>操作はコントローラー（左スティックで移動✕ボタンでジャンプ）。<br />
+                R2を押しながら〇・△・□・✕ボタンを押すと能力の切り替え<br />
+                Windows向けにUnityで開発。</p>
+        </section>
+
+        <footer>
+            <p>&copy; 2023 ガンバラニャイト</p>
+            <p>
+                ポートフォリオTOPへ戻る → <a href="index.html">こちら</a><br>
+                GitHub：<a href="https://github.com/kurokuma09" target="_blank">kurokuma09</a><br>
+                メール：taguchi.hiroto20@gmail.com
+            </p>
+        </footer>
+
+</body>
+
+</html>

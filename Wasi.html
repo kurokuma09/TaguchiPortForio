@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ワッシーのウィッグハント</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #fff8e1;
+            /* サバンナ風の黄味ベース */
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: #3e2723;
+            /* 濃い茶文字 */
+        }
+
+        header {
+            background-color: #f57c00;
+            /* オレンジのタイトル背景 */
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: #e65100;
+            /* 濃いめオレンジの見出し */
+            font-size: 22px;
+            border-left: 6px solid #f57c00;
+            padding-left: 10px;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        video {
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .media-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .media-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /*下の元のページに戻るための”こちら”という文字を白にして、マウスを重ねると黄色にする*/
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #1e3a5f;
+            color: white;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: white;
+        }
+
+        footer a:hover {
+            color: #ffcc00;
+            /* 例：薄い黄色など */
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>ワッシーのウィッグハント</h1>
+        <p>ワッシーを操作して敵を倒そう！</p>
+    </header>
+
+    <div class="container">
+        <section>
+            <h2>ゲームの概要</h2>
+            <p>
+                『ワッシーのウィッグハント』は、個性の異なる３種のキャラクターから1種類を選び、次々と現れる敵を撃破して高スコアを目指すシューティングゲームです。<br>
+                それぞれのワッシーが持つ特徴的な弾の特性を活かし、現れる敵の攻撃をよけながら倒していく、回避と攻撃を常に考えながら戦う難しさもポイントです。
+            </p>
+        </section>
+
+        <section>
+            <h2>特徴・魅力</h2>
+            <ul>
+                <li>３種類のワッシーはそれぞれ発射する弾が違うので自分に合ったワッシーで戦える</li>
+                <li>難易度によって出てくる敵が違うので予想が難しい敵が豊富</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>タイトル画面とメインゲームイメージ</h2>
+            <div class="media-grid">
+                <img src="Wasii.png" alt="タイトル画面">
+                <img src="WasiGame.png" alt="ゲーム画面">
+
+            </div>
+        </section>
+
+        <section>
+            <h2>学んだこと・工夫したこと</h2>
+            <p>
+                初めてのチーム制作で、シューティングゲームにある爽快感と簡単すぎず、油断しているとやられてしまう緊張感を与えられるようにするバランスを意識して作りました。<br>
+                また、敵の攻撃や発生を工夫する中で「パターン化させない」ことと「敵にも癖のある攻撃を与える」この2つを特に工夫して、プレイヤーは何度遊んでも楽しめるようにしました。
+            </p>
+        </section>
+
+        <section>
+            <h2>スクリプト</h2>
+            <div class="media-grid">
+                <img src="WasiScript.png" alt="プレイヤースクリプト">
+                <img src="WasiScript1.png" alt="プレイヤー弾スクリプト">
+            </div>
+        </section>
+
+        <section>
+            <h2>担当箇所</h2>
+            <p>背景以外のキャラクター挙動・弾処理・スコア管理など、主要なロジック全般を担当しました</p>
+        </section>
+
+        <section>
+            <h2>プレイ情報</h2>
+            <p>
+                【開発環境】Unity 2022.3 LTS / C#<br>
+                【実行形式】Windows（PC向け） / WebGL<br>
+                【操作方法】WASDキーで移動、スペースでショット
+            </p>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2022 ワッシーのウィッグハント</p>
+        <p>
+            ポートフォリオTOPへ戻る → <a href="index.html">こちら</a><br>
+            GitHub：<a href="https://github.com/kurokuma09" target="_blank">kurokuma09</a><br>
+            メール：taguchi.hiroto20@gmail.com
+        </p>
+    </footer>
+
+</body>
+
+</html>
